@@ -1,0 +1,42 @@
+<style>
+.angular-google-map-container { height: 60%; }
+
+.vehicleList:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+</style>
+
+<div class="grid-100" style="text-align:left;">
+Carvoyant Account: {{ account.firstName }} {{ account.lastName }}
+</div>
+
+<div class="grid-100 grid-parent" style="padding-top:20px; text-align:left;">
+	<div class="grid-40">
+		<div class="ui-widget-header ui-corner-top" style="padding:5px 10px;">
+			Vehicles
+		</div>
+		<div class="ui-widget-content ui-corner-bottom" style="padding:10px;">
+			<div class="vehicleList" ng-repeat="vehicle in vehicles">
+				<span onmouseover="" ng-click="selectVehicle(vehicle.vehicleId)">{{ vehicle.name }} - {{ vehicle.label }}</span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid-60" ng-show="selectedVehicle != null">
+		<div class="ui-widget-header ui-corner-top" style="padding:5px; 10px;">
+			{{ selectedVehicle.name }}
+		</div>
+		<div class="ui-widget-content ui-corner-bottom" style="padding:10px;">
+			Label: {{ selectedVehicle.label}}<br/>
+			VIN: {{ selectedVehicle.VIN }}<br/>
+			<div ng-if="selectedVehicle != null && mapCenter != null">
+			Current Location:
+			<ui-gmap-google-map center='mapCenter' zoom='15'>
+				<ui-gmap-marker idKey='selectedVehicle.vehicleId' coords='selectedVehicle.lastWaypoint'>
+				</ui-gmap-marker>
+			</ui-gmap-google-map>
+			</div>
+		</div>
+	</div>
+</div>
