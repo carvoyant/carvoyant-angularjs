@@ -3,7 +3,7 @@ var carvoyantConfig = angular.module('carvoyantConfig', []);
 
 carvoyantConfig.constant({
 	carvoyantBaseApi: 'https://api.carvoyant.com/v1/api/',
-	carvoyantOAuth2Uri: 'https://auth.carvoyant.com/AuthenticationServer/oauth/authorize',
+	carvoyantOAuth2Uri: 'https://auth.carvoyant.com/oauth/authorize',
 	carvoyantClientId: 'c9y7z9bqh6ntqfna56a6xp4p',
 	googleMapsKey: 'AIzaSyBfO4TcUaBaeMoIkUODVbBEf1tjE47rZ14'
 });
