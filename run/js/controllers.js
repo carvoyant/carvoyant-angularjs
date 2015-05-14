@@ -13,7 +13,7 @@ carvoyantControllers.config(function(uiGmapGoogleMapApiProvider, googleMapsKey) 
 // Create the LoginController. This handles redirecting the user to the Carvoyant authorization server
 carvoyantControllers.controller('LoginController', ['$scope', '$window', '$location', '$route', 'carvoyantOAuth2Uri', 'carvoyantClientId', function ($scope, $window, $location, $route, carvoyantOAuth2Uri, carvoyantClientId) {
 	$scope.login = function () {
-		var redirectUri = encodeURIComponent($location.protocol() + "://" + $location.host() + ":" + $location.port() + "/#/authorized");
+		var redirectUri = encodeURIComponent($location.protocol() + "://" + $location.host() + ":" + $location.port() + "/carvoyant-angularjs/run/#/authorized");
 		var authServer = carvoyantOAuth2Uri;
 		$window.location.href = authServer + "?redirect_uri=" + redirectUri + "&response_type=token&client_id=" + carvoyantClientId;
 	};
