@@ -1,3 +1,6 @@
+
+// A simple directive to enable jQueryUI element functionality.
+// Only buttons are implemented right now.
 carvoyantApp.directive('jqUiElement', ['$rootScope', function ($rootScope) {
 	return {
 		restrict: 'EA',

@@ -1,6 +1,7 @@
 
 var carvoyantControllers = angular.module('carvoyantControllers', ['carvoyantConfig', 'uiGmapgoogle-maps']);
 
+// Set up Google Maps
 carvoyantControllers.config(function(uiGmapGoogleMapApiProvider, googleMapsKey) {
 	uiGmapGoogleMapApiProvider.configure({
 		key: googleMapsKey,
@@ -9,6 +10,7 @@ carvoyantControllers.config(function(uiGmapGoogleMapApiProvider, googleMapsKey) 
 	});
 });
 
+// Create the LoginController. This handles redirecting the user to the Carvoyant authorization server
 carvoyantControllers.controller('LoginController', ['$scope', '$window', '$location', '$route', 'carvoyantOAuth2Uri', 'carvoyantClientId', function ($scope, $window, $location, $route, carvoyantOAuth2Uri, carvoyantClientId) {
 	$scope.login = function () {
 		var redirectUri = encodeURIComponent($location.protocol() + "://" + $location.host() + ":" + $location.port() + "/#/authorized");
@@ -17,15 +19,21 @@ carvoyantControllers.controller('LoginController', ['$scope', '$window', '$locat
 	};
 }]);
 
+// The Carvoyant authorization server will redirect the user back to this controller. The access token will be stored
+// in the $rootScope and the user will be redirected to the /vehicles route.
 carvoyantControllers.controller('AuthorizedController', ['$rootScope', '$routeParams', '$location', function ($rootScope, $routeParams, $location) {
 	$rootScope.token = $routeParams.access_token;
 	$location.search('').path('/vehicles');
 }]);
 
-carvoyantControllers.controller('CarvoyantController', ['$scope', '$rootScope', '$location', 'UserInfo', 'CarvoyantService', function ($scope, $rootScope, $location, UserInfo, CarvoyantService) {
+// Handles the basic logged in functionality
+carvoyantControllers.controller('CarvoyantController', ['$scope', '$rootScope', '$location', 'CarvoyantService', function ($scope, $rootScope, $location, CarvoyantService) {
+	
+	// If no access token is available, redirect back to the login screen
 	if ($rootScope.token == null) {
 		$location.path("/");
 	} else {
+		// Otherwise load the account and vehicle list
 		CarvoyantService.getAccount($rootScope.token)
 			.then(function (result) {
 				$scope.account = result;
@@ -41,6 +49,7 @@ carvoyantControllers.controller('CarvoyantController', ['$scope', '$rootScope', 
 			});
 	}
 
+	// When a vehicle is selected by the user, load it's details
 	$scope.selectVehicle = function (vehicleId) {
 		CarvoyantService.getVehicle($rootScope.token, vehicleId)
 			.then(function (result) {
